@@ -31,6 +31,9 @@ app.use("/api/products", productsRouter);
 // app.use(function (req, res, next) {
 //   next(createError(404));
 // });
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
 // error handler
 app.use(function (err, req, res, next) {

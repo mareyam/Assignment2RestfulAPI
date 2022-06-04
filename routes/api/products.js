@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const validateProduct = require("../../middlewares/validateProduct");
-const auth = require("../../middlewares/auth");
-const admin = require("../../middlewares/admin");
 var {Product} = require("../../models/product");
 
 /* GET home page. */
@@ -16,7 +14,7 @@ router.get('/', async (req, res) => {
 // let skipRecords = perPage * (page - 1);
 // let products = await Product.find().skip(skipRecords).limit(perPage);
 // return res.send(products);
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
   let products = await Product.findById(req.params.id);
   if(!products)
@@ -35,13 +33,13 @@ router.put("/:id",validateProduct, async (req, res) => {
   return res.send(products);
 });
 
-router.delete("/:id",auth, admin, async (req, res) => {
+router.delete("/:id",async (req, res) => {
   let products = await Product.findByIdAndDelete(req.params.id);
   return res.send(products);
 });
 
 
-router.post("/", validateProduct, async (req, res) => {
+router.post("/",validateProduct, async (req, res) => {
   let products = new Product();
   products.name = req.body.name;
   products.price = req.body.price;
